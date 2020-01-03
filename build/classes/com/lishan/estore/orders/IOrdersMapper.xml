@@ -73,9 +73,29 @@
    </update>
    
    <select id="queryOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
-   		select * from orders where uid =#{uid}
+   		select * from orders where uid =#{uid} 
    </select>
    
+   <!-- 未支付订单order -->
+   <select id="querynopayOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
+   		select * from orders where uid =#{uid} and status=0
+   </select>
+   
+    <!-- 已支付订单order -->
+   <select id="querypayOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
+   		select * from orders where uid =#{uid} and status=1
+   </select>
+   
+   
+    <!-- 已发货订单order -->
+   <select id="querysendOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
+   		select * from orders where uid =#{uid} and status=2
+   </select>
+   
+    <!-- 未发货订单order -->
+   <select id="querynosendOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
+   		select * from orders where uid =#{uid} and status=3
+   </select>
    
    <resultMap type="com.lishan.estore.orders.OrderItems" id="findItems">
 	    <result column="oid" property="oid"/>
@@ -86,12 +106,12 @@
 	</resultMap>
     
    <select id="queryOrderItemsByoid" parameterType="string" resultMap="findItems">
-   		select * from orderitems where oid =#{id}
+   		select * from orderitems where oid =#{id} 
    </select>
    
-   <!-- 未支付订单 -->
+   <!-- 未支付订单商品 -->
 	<select id="queryOrdersByuid1" parameterType="string" resultMap="findItems">
-   		select * from orderitems where oid =#{id} and status = 0
-   </select>
-   
+   		select * from orderitems where oid =#{id} 
+   </select>	
+   		
    </mapper>

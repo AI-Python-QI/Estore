@@ -43,22 +43,131 @@ public class MyHomeDataController {
 		JSONObject json = new JSONObject();
 		HttpSession session = request.getSession();
 		Users user = (Users) session.getAttribute("user");
-		int uid = user.getId();
-		//所有订单orders
-		List<Orders> orderlist = myhomeService.queryOrders(uid);
-		List<OrderItems> orderitems = new ArrayList<OrderItems>();
-		//遍历orders 查询出所有	
-		for (Orders orders : orderlist) {			
-			orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+		if(user!=null) {
+			int uid = user.getId();
+			
+			List<Orders> orderlist = myhomeService.queryOrders(uid);
+			List<OrderItems> orderitems = new ArrayList<OrderItems>();
+				
+			for (Orders orders : orderlist) {			
+				orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+			}
+			json.put("error_code", "24");
+			json.put("error_msg1", orderitems);
+			return json.toJSONString();
+		}else {
+			json.put("error_code", "404");
+			json.put("error_msg1", "error");
+			return json.toJSONString();
 		}
-		json.put("error_code", "24");
-		json.put("error_msg1", orderitems);
-		return json.toJSONString();
+		
 	}
 	
+	//未支付订单
+	@RequestMapping(value="/nopayorder",produces="text/html;charset=utf-8")
+	@ResponseBody
+	public String nopayorder(HttpServletRequest request)throws Exception{
+		JSONObject json = new JSONObject();
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("user");
+		if(user!=null) {
+			int uid = user.getId();
+			
+			List<Orders> orderlist = myhomeService.querynopayOrders(uid);
+			List<OrderItems> orderitems = new ArrayList<OrderItems>();
+				
+			for (Orders orders : orderlist) {			
+				orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+			}
+			json.put("error_code", "24");
+			json.put("error_msg1", orderitems);
+			return json.toJSONString();
+		}else {
+			json.put("error_code", "404");
+			json.put("error_msg1", "error");
+			return json.toJSONString();
+		}
+	}	
+	
+		//已支付订单
+		@RequestMapping(value="/payorder",produces="text/html;charset=utf-8")
+		@ResponseBody
+		public String payorder(HttpServletRequest request)throws Exception{
+			JSONObject json = new JSONObject();
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("user");
+			if(user!=null) {
+				int uid = user.getId();
+				
+				List<Orders> orderlist = myhomeService.querypayOrders(uid);
+				List<OrderItems> orderitems = new ArrayList<OrderItems>();
+					
+				for (Orders orders : orderlist) {			
+					orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+				}
+				json.put("error_code", "24");
+				json.put("error_msg1", orderitems);
+				return json.toJSONString();
+			}else {
+				json.put("error_code", "404");
+				json.put("error_msg1", "error");
+				return json.toJSONString();
+			}
+		}
 		
-	
-	
+		//已发货订单
+		@RequestMapping(value="/sendorder",produces="text/html;charset=utf-8")
+		@ResponseBody
+		public String sendorder(HttpServletRequest request)throws Exception{
+			JSONObject json = new JSONObject();
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("user");
+				if(user!=null) {
+					int uid = user.getId();
+						
+					List<Orders> orderlist = myhomeService.querysendOrders(uid);
+					List<OrderItems> orderitems = new ArrayList<OrderItems>();
+							
+					for (Orders orders : orderlist) {			
+						orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+					}
+						json.put("error_code", "24");
+						json.put("error_msg1", orderitems);
+					return json.toJSONString();
+					}else {
+						json.put("error_code", "404");
+						json.put("error_msg1", "error");
+						return json.toJSONString();
+					}
+				}		
+		
+		
+		//未发货订单
+		@RequestMapping(value="/nosendorder",produces="text/html;charset=utf-8")
+		@ResponseBody
+		public String nosendorder(HttpServletRequest request)throws Exception{
+			JSONObject json = new JSONObject();
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("user");
+				if(user!=null) {
+					int uid = user.getId();
+								
+					List<Orders> orderlist = myhomeService.querynosendOrders(uid);
+					List<OrderItems> orderitems = new ArrayList<OrderItems>();
+									
+					for (Orders orders : orderlist) {			
+						orderitems.addAll(ordersMapper.queryOrderItemsByoid(orders.getId()));					
+					}
+						json.put("error_code", "24");
+						json.put("error_msg1", orderitems);
+					return json.toJSONString();
+					}else {
+						json.put("error_code", "404");
+						json.put("error_msg1", "error");
+						return json.toJSONString();
+					}
+				}		
+				
 
 }
 

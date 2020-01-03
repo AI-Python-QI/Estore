@@ -27,6 +27,18 @@ public interface IOrdersMapper {
 	public List<Orders> queryOrdersByuid(@Param("uid")int uid);
 	//查询orderitems
 	public List<OrderItems> queryOrderItemsByoid(@Param("id")String id);
+
+	//查询未支付订单 status=0
+	public List<Orders> querynopayOrdersByuid(@Param("uid")int uid);
+
+	//已支付订单
+	public List<Orders> querypayOrdersByuid(@Param("uid")int uid);
+
+	//已发货订单
+	public List<Orders> querysendOrdersByuid(@Param("uid")int uid);
+
+	//未发货订单
+	public List<Orders> querynosendOrdersByuid(@Param("uid")int uid);
 	
 	
 }
