@@ -76,4 +76,22 @@
    		select * from orders where uid =#{uid}
    </select>
    
+   
+   <resultMap type="com.lishan.estore.orders.OrderItems" id="findItems">
+	    <result column="oid" property="oid"/>
+		<result column="gid" property="gid"/>
+		<result column="buynum" property="buynum"/>
+		<collection property="items" ofType="com.lishan.estore.items.Items" column="gid"
+		select="com.lishan.estore.items.ItemsMapper.queryGoodsByids"></collection>
+	</resultMap>
+    
+   <select id="queryOrderItemsByoid" parameterType="string" resultMap="findItems">
+   		select * from orderitems where oid =#{id}
+   </select>
+   
+   <!-- 未支付订单 -->
+	<select id="queryOrdersByuid1" parameterType="string" resultMap="findItems">
+   		select * from orderitems where oid =#{id} and status = 0
+   </select>
+   
    </mapper>

@@ -35,19 +35,19 @@ public class OrdersServiceImpl implements IOrdersService{
 			return false;
 		}
 	
-	 public List<OrderItems> findOrderItemList(Orders orders) throws Exception {
-			// TODO Auto-generated method stub
+	 	public List<OrderItems> findOrderItemList(Orders orders) throws Exception {
+		// TODO Auto-generated method stub
 			return ordersMapper.findOrderItemList(orders);
 		}
 	 
 	 
 		public Orders findOrdersByOidAndUid(Orders order) throws Exception {
-			// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 			return ordersMapper.findOrdersByOidAndUid(order);
 		}
 		
 		public List<Cart> queryCheckedItem(Cart cart) throws Exception {
-			// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 			return cartMapper.queryCheckedItem(cart);
 		}
 

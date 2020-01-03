@@ -59,13 +59,9 @@
 			type:"post",
 			success:(function(result){
 				if(result.error_code=="24"){
-					//alert("hello");
-					//alert(error_msg.orderlist);
 					console.log(result.error_msg1);
 					var orderlist = result.error_msg1;
-					/* alert(orderlist); */
-					$.each(orderlist,function(index,order){
-						
+					$.each(orderlist,function(index,order){						
 							 $("#showcarts").append(
 									   $("<tr></tr>").attr("named","hehe")
 									   .append($("<td></td>").attr("width","200").html(order.oid))
