@@ -29,10 +29,7 @@
 						<th>支付</th>
 						
 					</tr>
-					
 				
-					
-					
 				</tbody>
 			</table>
 			<dl id="giftItems" class="hidden" style="display: none;">
@@ -46,7 +43,7 @@
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="${root }/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="${root }/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 
 	//加载数据
@@ -71,8 +68,7 @@
 									   .append($("<td></td>").attr("width","100").html("<a href='${root}/items/itemDetail.html/"+order.items.id+"'>"+order.items.name+"</a>"))
 									   .append($("<td></td>").html(order.items.estoreprice))
 									   .append($("<td></td>").html(order.buynum))
-									   .append($("<td></td>").attr("class","quantity").attr("width","60").html(order.items.estoreprice*order.buynum))
-									  
+									   .append($("<td></td>").attr("class","quantity").attr("width","60").html(order.items.estoreprice*order.buynum))									  
 							)  
 					})
 			 }else{

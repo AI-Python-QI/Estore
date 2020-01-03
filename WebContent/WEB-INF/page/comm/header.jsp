@@ -44,7 +44,7 @@
 							|
 						</li>
 						<li>
-							<a >购物指南</a>
+							<a href="http://localhost:8080/Manager/admin/mlogin.html">管理入口</a>
 							|
 						</li>
 						<li>

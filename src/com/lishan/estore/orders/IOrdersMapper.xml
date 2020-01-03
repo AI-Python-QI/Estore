@@ -72,4 +72,8 @@
    		update orders set status=1 where id = #{orderId}
    </update>
    
+   <select id="queryOrdersByuid" parameterType="int" resultType="com.lishan.estore.orders.Orders">
+   		select * from orders where uid =#{uid}
+   </select>
+   
    </mapper>

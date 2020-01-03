@@ -35,4 +35,7 @@ public interface IOrdersMapper {
 	//修改订单状态
 	public int updateOrderStatusByid(@Param("orderId")String orderId);
 	
+	//查询用户所有订单信息
+	public List<Orders> queryOrdersByuid(@Param("uid")int uid);
+	
 }
