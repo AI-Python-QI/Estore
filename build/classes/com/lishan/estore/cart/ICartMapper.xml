@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lishan.estore.cart.ICartMapper">
+
+	<resultMap type="com.lishan.estore.cart.Cart" id="cartAll">
+		<id column="cid" property="id" />
+		<result column="uid" property="uid" />
+		<result column="gid" property="gid" />
+		<result column="buyNum" property="buyNum" />
+		<result column="createtime" property="createtime"/>
+		<association property="item" javaType="com.lishan.estore.items.Items">
+			<id column="iid" property="id" />
+			<result column="titleimage" property="titleimage" />
+			<result column="estoreprice" property="estoreprice" />
+			<result column="num" property="num"/>
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<select id="queryCartList" resultMap="cartAll">
+		select c.id
+		cid,c.buyNum,g.id iid,g.titleimage,g.estoreprice,g.num,g.name,c.createtime
+		from cart
+		c,goods g
+		where c.gid=g.id
+		and c.uid=#{uid}
+		order by createtime desc 
+		limit #{begin},#{end}
+	</select>
+
+	<!-- 将要提交的商品信息显示在订单页面 -->
+	<select id="queryCheckedItem" parameterType="com.lishan.estore.cart.Cart" resultMap="cartAll">
+	   select c.id cid,c.buyNum,c.gid,g.id iid,g.titleimage,g.estoreprice,g.name,g.num
+       from cart c,goods g
+       where c.gid=g.id
+       and c.uid=#{uid}
+       <if test="ids!=null and ids.size>0">
+	     <foreach collection="ids" open="and c.id in(" close=")" item="id" separator=",">
+	       #{id}
+	     </foreach>
+	  </if>
+	</select>
+	
+	<select id="queryCartCountByUid" parameterType="int"
+		resultType="int">
+		select count(*)
+		from cart
+		where uid=#{uid}
+	</select>
+
+
+	<!-- 添加购物车 -->
+	<insert id="insertCartByuidAndgidAndbuyNum" parameterType="_int">
+		insert into cart(uid,gid,buyNum,createtime)values(#{uid},#{gid},#{buyNum},now()) 
+	</insert>
+
+	<!-- 清空购物车 -->
+	<delete id="deleCartByUsername" parameterType="_int" >
+		delete from cart where uid =#{id}
+	</delete>
+
+	<delete id="deleCartByid" parameterType="_int">
+		delete from cart where id =#{id}
+	</delete>
+
+<!-- resultMap="cartById" -->
+
+<select id="queryCartByIds" >
+  select * from cart
+  <where>
+        <if test="list!=null and list.size>0">
+           <foreach collection="list" open="and id in(" separator="," close=")" item="id">
+                 #{id}
+           </foreach>
+        </if>
+       </where>
+ </select>
+
+
+
+	<delete id="deleteCartChecked" parameterType="com.lishan.estore.cart.Cart">
+	  delete from cart
+	  where uid=#{uid}
+	  <if test="ids!=null and ids.size>0">
+	     <foreach collection="ids" open="and id in(" close=")" item="id" separator=",">
+	       #{id}
+	     </foreach>
+	  </if>
+	</delete>
+
+	
+	<update id="updateCartByidQuantity" parameterType="int">
+			update cart set buyNum=#{quantity} where id=#{id}
+	</update>
+
+	<select id="queryBuyNumBygiduid" parameterType="int" resultType="com.lishan.estore.cart.Cart">
+			select  * from cart where uid=#{uid} and gid=#{gid}
+	</select>
+
+	<!-- 修改buyNum -->
+	<update id="updateCartBuyNum" parameterType="int">
+			update cart set buyNum=#{buyNum} where uid=#{uid} and gid=#{gid}
+	</update>
+	
+	
+</mapper>
+
+
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   <mapper namespace="com.lishan.estore.orders.IOrdersMapper">
+   
+   
+   <!-- 将订单明细的加入订单明细表 -->
+	<insert id="insertOrderItems" parameterType="com.lishan.estore.orders.OrderItems">
+		insert into orderitems values
+		<foreach collection="list" item="orderItems" separator=",">
+		(#{orderItems.oid},#{orderItems.gid},#{orderItems.buynum})
+		</foreach>
+	</insert>
+	<!-- 订单信息加入订单表 -->
+	<insert id="insertOrders" parameterType="com.lishan.estore.orders.Orders">
+		insert into orders (id,totalprice,uid,createtime,status,address,receivename,phone) 
+		values(#{id},#{totalprice},#{uid},#{createtime},#{status},#{address},#{receivename},#{phone});
+	</insert>
+	
+	<!-- 查询订单明细 -->
+	<resultMap type="com.lishan.estore.orders.OrderItems" id="findOrderItemListMap">
+	    <result column="oid" property="oid"/>
+		<result column="gid" property="gid"/>
+		<result column="buynum" property="buynum"/>
+		<association property="items" javaType="com.lishan.estore.items.Items">
+			<id  column="gid" property="id"/>
+			<result column="name" property="name"/>
+			<result column="estoreprice" property="estoreprice"/>
+			<result column="titleimage" property="titleimage"/>
+		</association>
+	</resultMap>
+	<select id="findOrderItemList" parameterType="com.lishan.estore.orders.Orders" resultMap="findOrderItemListMap">
+		select oid,gid,buynum,name,estoreprice,titleimage from orders inner join orderitems on orders.id=orderitems.oid inner join goods on orderitems.gid=goods.id where orders.uid=#{uid} and orders.id=#{id}
+	</select>
+	
+	<!-- 查询订单信息 -->
+	<select id="findOrdersByOidAndUid" parameterType="com.lishan.estore.orders.Orders" resultType="com.lishan.estore.orders.Orders">
+		select * from orders where uid=#{uid} and id=#{id}
+	</select>
+	
+<!-- 	<resultMap type="com.lishan.estore.orders.Orders" id="findOrderItems">
+	    <result column="id" property="id"/>
+		<result column="uid" property="uid"/>
+		<result column="totalprice" property="totalprice"/>
+		<result column="address" property="address"/>
+		<result column="createtime" property="createtime"/>
+		<result column="phone" property="phone"/>
+		<result column="receivename" property="receivename"/>
+		<collection property="receivename" ofType="com.lishan.estore.orders.OrderItems" column="id"
+		select=""></collection>
+	</resultMap>
+   <select id="fidnOrderByid" parameterType="int" resultMap="findOrderItems">
+   	select * from orders where id=#{id}
+   </select>
+   <select id=""></select> -->
+   
+   <!-- 查询商品的订单 -->
+   <select id="queyAllOrdersItemsByoid" parameterType="string" resultType="com.lishan.estore.orders.OrderItems">
+   		select * from orderitems where oid =#{oid} 
+   </select>
+   <select id="queyAllOrdersItemsByoids" resultType="com.lishan.estore.orders.OrderItems">
+   		select * from orderitems where oid in 
+   		<foreach collection="list" open="(" close=")" separator="," item="orders">
+   			#{orders.id}
+   		</foreach>
+   </select>
+   
+   <!-- 修改订单状态 -->
+   <update id="updateOrderStatusByid" parameterType="string" >
+   		update orders set status=1 where id = #{orderId}
+   </update>
+   
+   </mapper>

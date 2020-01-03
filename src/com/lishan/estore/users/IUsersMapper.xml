@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lishan.estore.users.IUsersMapper">
+
+	<!-- 用户登录 -->
+	<select id="queryUserByUsernameorEmailorPassword"
+		parameterType="string" resultType="com.lishan.estore.users.Users">
+		select * from users
+		<where>
+			and stat=1
+			<if test="username != null and username !='' ">
+				and username=#{username}
+			</if>
+
+			<if test="email != null and email != '' ">
+				and email=#{email}
+			</if>
+			and password=#{password}
+		</where>
+	</select>
+	
+	
+	<!-- 用户注册 -->
+	<insert id="insertUserBynNamePasswordESAUB" parameterType="string">
+		insert  into users(username,password,email,name,sex,address,acode) values(#{username},#{password},#{email},#{name},#{sex},#{address},#{acode})
+	</insert>
+	
+	<!-- paramType 的值要注意别名问题  string _int 是spring的默认值都是可以识别的 
+		rest  将 responsebody 
+		注解requestmappering的方法  return 的字符串 就是跳转的网站
+		
+	-->
+
+	<!-- 用户激活 -->
+	<update id="updateUserStat" parameterType="string">
+		update users set stat=1 where acode=#{acode} 
+	</update>
+
+
+	<!-- 用户使用手机号快速登录 -->
+	<select id="queryUserByPhone" parameterType="string" resultType="com.lishan.estore.users.Users">
+		select * from users where phone =#{phoneNum}
+	</select>
+	
+	<update id="updateUserPasswordByphoneAndpassword" parameterType="string">
+		update users set password=#{password} where phone=#{phone} and username=#{username}
+	
+	</update>
+	
+	<!-- 通过email查询用户 -->
+	<select id="queryUserByEmail" parameterType="string" resultType="com.lishan.estore.users.Users">
+		select * from users where email=#{email}
+	</select>
+	<!--通过username查询用户  -->
+	<select id="queryUserByUsername" parameterType="string" resultType="com.lishan.estore.users.Users">
+		select * from users where username=#{username}
+	</select>
+	<!-- 快速注册用户 -->
+	<insert id="insertUserPasswordByphoneAndpassword"  parameterType="string" >
+		insert into users(username,password,phone,stat) values(#{username},#{password},#{phoneno},1)
+	</insert>
+
+</mapper>

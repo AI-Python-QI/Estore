@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Estore</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  
+  <!-- handler 处理器的返回值可以是 void string model -->
+  <!-- 建立jsp文件，放行拦截 设置${root} 配置页面 添加元素快速登录 删除表单标签
+  	新建 users pojo类：interger id , username , password name, email brithday sex address phone acode photo stat
+  	get set方法 get 为空处理， set方法：是否为空，某些特殊参数判断是否非法字符传入 判断是否包含中文
+  	判断字符串是否合法 日期是否合法
+  	 实现可序列化的接口 serializable
+  	
+  	新建mapper文件，查询数据
+  	
+  	新建IUsesMapper接口， 定义方法 querybyxxx（username password email）@param("username") 别名
+  	
+  	新建service IUsersService接口
+  	实现IUsersService接口  启用自动装配，注入  @service @autowired private IUsersMapper usersMapper；
+  	
+  		新建登录方法： 传值 三个 
+  			判断传递过来的name是否是一个邮箱格式， 通过split分割 添加到数组判断，通过判断数组的长度 对email进行控制
+  			
+  			调用dao层的查询方法querybyxxx
+  	新建 usersDataController 添加注解 @controller @requestmapping(value="/users", produces="text/html charset=utf-8")
+  		@autowired
+  		@qualifier("uService")
+  		private IuserService usersService
+  		
+  		@requestresource 
+  		@
+  		#json 错误编码工具类  枚举类 把信息进行封装
+  		
+  		老师讲解时 注入json时，发生错误 删除json注入 进行自定义
+  			public class getjsonutil
+  	
+  			拿取json值时切割后 更改拿取方法，split方法为何不能切割取值，小bug 什么都不输入点击回车可以直接登入
+  			
+  	进行前端设计
+  		jQuery 设计登录
+  		$(function){
+  			$("#btn").click(function(){
+  				var name= $("input[name="name"]")
+  			})
+  			
+  			//利用正则进行数据校验
+  			
+  			//通过ajax进行
+  		}
+  	
+   -->
+   
+   
+ 
+   
+   <!-- 2.配置编码过滤器 -->
+   <filter>
+   		<filter-name>encodingFilter</filter-name>
+   		<filter-class> org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+   		<!-- 此处设置编码的格式 -->
+   		<init-param>
+   			<param-name>encoding</param-name>
+   			<param-value>UTF-8</param-value>
+   		</init-param>
+   </filter>
+   
+   <filter-mapping>
+   		<filter-name>encodingFilter</filter-name>
+   		<url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   <!--3. 配置监听器 将spring IOC容器交给 web容器进行初始化 -->
+   <listener>
+   		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>
+   <!-- 配置属性 和初始化的文件 -->
+   <context-param>
+   		<param-name>contextConfigLocation</param-name>
+   		<param-value>classpath:applicationContext-*.xml</param-value>
+   </context-param>
+   
+   
+     <!-- ssm搭建 1.配置servlet 核心前端控制器 dispartcherservlet -->
+   <servlet>
+   		<servlet-name>springmvc</servlet-name>
+   		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+   		<!-- 配置servlet文件加载路径 -->
+   		<init-param>
+   			<param-name>contextConfigLocation</param-name>
+   			<param-value>classpath:springmvc-servlet.xml</param-value>
+   		</init-param>
+   </servlet>
+
+   <servlet-mapping>
+   		<servlet-name>springmvc</servlet-name>
+   		<url-pattern>/</url-pattern>
+   </servlet-mapping>
+   
+   
+   <!-- 4.配置applicationContext-dao.xml -->
+   <!-- 5.配置applicationContext-service.xml -->
+   <!-- 6.配置applicationContext-tx.xml -->
+  
+</web-app>

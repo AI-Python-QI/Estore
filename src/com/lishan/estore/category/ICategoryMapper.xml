@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lishan.estore.category.ICategoryMapper">
+	<resultMap type="com.lishan.estore.category.Category" id="categorys">
+		<id property="id" column="fid" />
+		<result property="type" column="ftype" />
+		<result property="pid" column="fpid" />
+		<collection property="lists" ofType="com.lishan.estore.category.Category">
+			<id property="id" column="zid" />
+			<result property="type" column="ztype" />
+			<result property="pid" column="zpid" />
+		</collection>
+	</resultMap>
+	<select id="queryCategory" resultMap="categorys">
+		SELECT f.id fid,f.type ftype,f.pid fpid,z.id zid,z.type ztype,z.pid zpid
+		FROM category f
+		INNER JOIN category z
+		ON f.id=z.pid
+	</select>
+	
+	
+	<select id="selectcategoryBypidAnd" resultType="com.lishan.estore.category.Category" parameterType="_int">
+		select * from category where id=#{id} and pid=#{pid}
+	</select>
+	
+	<select	id="selectcategory" resultType="com.lishan.estore.category.Category" parameterType="_int">
+		select * from category where pid=#{id}
+	</select>
+	
+	
+</mapper>

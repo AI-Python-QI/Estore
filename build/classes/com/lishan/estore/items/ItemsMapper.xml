@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   
+   
+   <mapper namespace="com.lishan.estore.items.ItemsMapper">
+   
+   <!-- //查询热度商品  -->
+   <select id="hotGoods" resultType="com.lishan.estore.items.Items">   	
+   		SELECT * from goods ORDER BY hot desc  LIMIT 0,10
+   </select>
+  
+   
+  <!--  //查询最新商品，通过生产时间筛选 -->
+  	<select id="newGoods" resultType="com.lishan.estore.items.Items">
+  		select * from goods order by production_date desc limit 0,10
+  	
+  	</select>
+   
+   
+   <!-- 通过ID查询商品详细信息 -->
+   
+   <select id="queryGoodsByIdMapper" resultType="com.lishan.estore.items.Items" parameterType="com.lishan.estore.items.Items">
+   		select * from goods where id =#{id}  
+   </select>
+   
+   <!-- //查询全部商品 -->
+   <select id="selectAllGoods" parameterType="string" resultType="com.lishan.estore.items.Items">
+   		select * from goods 
+   </select>
+   
+   <select id="queryGoodsBypid" resultType="com.lishan.estore.items.Items" parameterType="com.lishan.estore.items.Items">
+   		select * from goods where category_id= #{id}
+   </select>
+   
+   <select id="queryGoodsByid" resultType="com.lishan.estore.items.Items" parameterType="_int">
+   		select * from goods where category_id=#{id}
+   </select>
+   <select id="findItemsByids" parameterType="list" resultType="com.lishan.estore.items.Items">
+   			select * from goods 
+   			<where>
+   				<if test="c1!=null and c1.size>0">
+   					<foreach collection="c1" open="and category_id in( " separator="," close=")" item="id">
+   						#{id}
+   					</foreach>
+   				</if>
+   			</where>
+   </select>
+   
+   <select id="queryGoodsByids" parameterType="int" resultType="com.lishan.estore.items.Items">
+   			select * from goods where id=#{gid}
+   </select>
+   
+   </mapper>
