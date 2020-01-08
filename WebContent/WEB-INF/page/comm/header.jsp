@@ -30,14 +30,14 @@
 		<div class="topNav clearfix">
 			<ul>
 				<li id="headerLogin" class="headerLogin" style="display: list-item;">
-					<a href="${root }/users/login.html"><span></span>登录</a>|
+					<a href="${root }/users/login.html"><span></span>欢迎：<font color="orange"><strong>${user.username }</strong></font></a>|
 				</li>
 				<li id="headerRegister" class="headerRegister" style="display: list-item;">
 					<a href="${root }/users/register.html">注册</a>|
 				</li>
 				<li id="headerUsername" class="headerUsername"></li>
 				<li id="headerLogout" class="headerLogout">
-					<a href="${root }/users/login.html">[退出]</a>|
+					 <a href="${root }/users/logout">[退出]</a>| 
 				</li>
 						<li>
 							<a href="${root }/myhome/myhome.html">会员中心</a>

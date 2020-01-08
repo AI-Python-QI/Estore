@@ -12,6 +12,7 @@ public class OrderItems implements Serializable {
 	private int gid;
 	private int buynum;
 	private Items items;
+	private int stat;
 	
 	public OrderItems() {
 		
@@ -19,13 +20,18 @@ public class OrderItems implements Serializable {
 	
 	
 	
-	public OrderItems(String oid, int gid, int buynum, Items items) {
+	
+	public OrderItems(String oid, int gid, int buynum, Items items, int stat) {
 		super();
 		this.oid = oid;
 		this.gid = gid;
 		this.buynum = buynum;
 		this.items = items;
+		this.stat = stat;
 	}
+
+
+
 
 	public String getOid() {
 		return oid;
@@ -51,6 +57,21 @@ public class OrderItems implements Serializable {
 	public void setItems(Items items) {
 		this.items = items;
 	}
+	
+	public int getStat() {
+		return stat;
+	}
+
+
+
+
+	public void setStat(int stat) {
+		this.stat = stat;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return  JSONObject.toJSONString(this);

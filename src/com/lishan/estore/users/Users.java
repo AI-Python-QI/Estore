@@ -2,6 +2,8 @@ package com.lishan.estore.users;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Users {
 
 	private Integer id;
@@ -10,12 +12,13 @@ public class Users {
 	private String name;
 	private String email;
 	private String phone;
-	private Date birthday;
 	private String sex;
 	private String address;
 	private String photo;
 	private String acode;
 	private Integer stat;
+	@JSONField(format="yyyy-MM-dd")
+	private Date birthday;
 	
 		
 	

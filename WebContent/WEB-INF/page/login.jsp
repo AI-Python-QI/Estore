@@ -181,6 +181,8 @@
 			success:function(result){
 				if(result.error_code=="24"){ 
 					tishi.innerHTML = "<font color='green' >欢迎您:" + name + " 会员！️</font>"
+				}else if(result.error_code=="224"){
+					tishi.innerHTML = "<font color ='red'> 该用户未进行激活！</font><a color='green' href='${root}/users/active'>立即激活！</a>"
 				}else{
 					if(name==""){
 						tishi.innerHTML = "<font color='red' > 输入不能为空！️️</font>"

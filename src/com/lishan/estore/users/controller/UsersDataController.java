@@ -21,6 +21,7 @@ import com.lishan.estore.util.Cookies_util;
 import com.lishan.estore.util.GetJsonUtil;
 import com.lishan.estore.util.MySendMailThread;
 
+
 //import com.lishan.estore.util.SendCode;
 
 @Controller
@@ -46,31 +47,38 @@ public class UsersDataController {
 
 		HttpSession session = request.getSession();
 		response.setCharacterEncoding("text/html;charset=utf-8");
-		Users users = usersService.loginBynameOrEmailAndPassword(name, password);
+		Users users = usersService.loginBynameOrEmailAndPassword(name, password); 
 		JSONObject json = jsonUtil.getJson();
 		if (users != null) {
+			if(users.getStat()==0) {
+				json.put("error_code", "224");
+				json.put("error_msg", "regidter no active!");
+				return json.toJSONString();
+			}else {
+				//不为0 表示激活状态 可以记住密码
+				if("1".equals(remeberme)){
+	                //是否保存到cookie中呢？    //users.getUsername调用的是pojo类里面的set  get方法
+	                Cookie usernameCookie = Cookies_util.getCookie("username",users.getUsername(),1800);
+	                //打钩选项 状态为1 或 0 也存放进 cookie 并从中取值 反馈给浏览器
+	                //temp的字段 是从网页内获取匹配的，个人推断表示位置 name = value 相对应
+	                Cookie tempCookie = Cookies_util.getCookie("temp", "1", 1800);
+	                //把cookie响应到浏览器
+	                response.addCookie(usernameCookie);
+	                response.addCookie(tempCookie);
+	            }else {
+	                Cookie usernameCookie = Cookies_util.getCookie("username","",0);
+	                Cookie tempCookie = Cookies_util.getCookie("temp","",0);
+	                //默认是0的话也将响应反馈到浏览器
+	                response.addCookie(usernameCookie);
+	                response.addCookie(tempCookie);
+	            }
+				System.out.println("-----------------" + users);
+				//登录成功用户信息存储到session中
+				session.setAttribute("user", users);
+				json.put("error_code", "0");
+				json.put("error_msg", "login OK!");
+			}
 			
-			if("1".equals(remeberme)){
-                //是否保存到cookie中呢？    //users.getUsername调用的是pojo类里面的set  get方法
-                Cookie usernameCookie = Cookies_util.getCookie("username",users.getUsername(),1800);
-                //打钩选项 状态为1 或 0 也存放进 cookie 并从中取值 反馈给浏览器
-                //temp的字段 是从网页内获取匹配的，个人推断表示位置 name = value 相对应
-                Cookie tempCookie = Cookies_util.getCookie("temp", "1", 1800);
-                //把cookie响应到浏览器
-                response.addCookie(usernameCookie);
-                response.addCookie(tempCookie);
-            }else {
-                Cookie usernameCookie = Cookies_util.getCookie("username","",0);
-                Cookie tempCookie = Cookies_util.getCookie("temp","",0);
-                //默认是0的话也将响应反馈到浏览器
-                response.addCookie(usernameCookie);
-                response.addCookie(tempCookie);
-            }
-			System.out.println("-----------------" + users);
-			//登录成功用户信息存储到session中
-			session.setAttribute("user", users);
-			json.put("error_code", "0");
-			json.put("error_msg", "login OK!");
 		} else {
 			json.put("error_code", "10000");
 			json.put("error_msg", "用户名或者密码错误!");
@@ -361,6 +369,7 @@ public class UsersDataController {
 			return json.toJSONString();
 
 		}
-	
+		
+
 
 }

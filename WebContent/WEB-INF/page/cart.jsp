@@ -117,7 +117,7 @@
 	  $(function(){
 		getChecked();
 		loadData(1);
-		setChecked();
+		
 	  })
 	  function loadData(pageNo){
 		  $.ajax({
@@ -138,8 +138,10 @@
 					  $("tr[named=hehe]").remove();
 					  $("div[named=hehe]").remove();
 					  
+					  console.log(lists);
 					  
 					  $.each(lists,function(index,cart){
+						  
 						  $("#showcarts").append(
 								   $("<tr></tr>").attr("named","hehe")
 								   .append($("<td></td>").html("<input type='checkbox' onclick='addMoney(this)'  name='check' value='"+cart.id+"' price='"+cart.item.estoreprice*cart.buyNum+"'>"))

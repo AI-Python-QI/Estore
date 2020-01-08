@@ -8,9 +8,9 @@
    
    <!-- 将订单明细的加入订单明细表 -->
 	<insert id="insertOrderItems" parameterType="com.lishan.estore.orders.OrderItems">
-		insert into orderitems values
+		insert into orderitems(oid,gid,buynum,stat) values
 		<foreach collection="list" item="orderItems" separator=",">
-		(#{orderItems.oid},#{orderItems.gid},#{orderItems.buynum})
+		(#{orderItems.oid},#{orderItems.gid},#{orderItems.buynum},0)
 		</foreach>
 	</insert>
 	<!-- 订单信息加入订单表 -->
